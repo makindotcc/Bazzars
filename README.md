@@ -4,14 +4,14 @@
 This plugin allows players to buy or sell items.
 
 __Recomended by:__
-* Dzikoysk
+* Dzikoysk (funnyguilds and wildskript developer)
 * TheMolkaPL
-* artur9010
+* artur9010 (web developer)
 * joda17
 
-# __Polish__
-__Polecaja:__
-* Dzikoysk (tak, ten od funnyguilds i od wildskripta i od pandy) ![Panda](http://screenshu.com/static/uploads/temporary/0j/vg/ze/p2n3gr.jpg)
-* TheMolkaPL
-* artur9010
-* joda17
+__commands:__
+uzupelnij to soboe
+
+__permissions:__
+jak up
+

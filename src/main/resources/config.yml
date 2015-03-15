@@ -1,0 +1,25 @@
+# Itemek ktorym sie placi - waluta
+item-pay: 'GOLD_INGOT'
+# Nazwa waluty
+currency: 'zlota'
+# Domyslna nazwa bazaru
+#    zmienne: $name - nick gracza
+bazars-name: 'Sklep $name'
+# Odleglosc od spawnu, w ktorej mozna zakladac bazar
+bazar-distance: 30
+# Zablokowane komendy, gdy gracz posiada bazar (domsylnie zablokowane komendy z CommandBook)
+blocked-commands:
+  - '/spawn'
+  - '/teleport'
+  - '/tp'
+  - '/return'
+  - '/ret'
+  - '/call'
+  - '/tpa'
+  - '/home'
+  - '/warp'
+locations:
+  spawn:
+    world: '__DEFAULT__'
+    x: 0
+    z: 0

@@ -1,0 +1,13 @@
+name: Bazzars
+authors: [filippop1]
+version: '${project.version}'
+description: 'Bazary do handlowania przedmiotami pomiedzy graczami'
+website: 'https://github.com/Thefilippop1PL/Bazzars'
+main: pl.filippop1.bazzars.BazzarsPlugin
+softdepend: [HolographicDisplays]
+
+commands:
+  bazar:
+    description: 'Stworz swoj wlasny bazar!'
+    aliases: [bazzars, bazary, bazzary, bazars]
+    usage: 'Uzyj `/bazar pomoc`, aby uzyskac pomoc'

@@ -20,6 +20,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
+import pl.filippop1.bazzars.api.Offer;
 import pl.filippop1.bazzars.command.Command;
 import pl.filippop1.bazzars.command.CommandException;
 
@@ -43,11 +44,12 @@ public class RemoveCommand extends Command {
         } catch (NumberFormatException ex) {
             throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
         }
-        try {
-            bazar.getOffers().remove(bazar.getOffers().get(i - 1));
-        } catch (Exception ex) {
-            throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
+        for (Offer offer : bazar.getOffers()) {
+            if (offer.getNumericID() == i) {
+                player.sendMessage(ChatColor.GREEN + "Usunales oferte.");
+                return;
+            }
         }
-        player.sendMessage(ChatColor.GREEN + "Usunales oferte.");
+        throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
     }
 }

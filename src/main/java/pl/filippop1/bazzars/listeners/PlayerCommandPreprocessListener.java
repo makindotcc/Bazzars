@@ -16,6 +16,10 @@ import pl.filippop1.bazzars.api.BazarManager;
 public class PlayerCommandPreprocessListener implements Listener {
     @EventHandler
     public void onPlayerCommandPreprocess(PlayerCommandPreprocessEvent e) {
+        if (e.getMessage().equalsIgnoreCase("/plugins") || e.getMessage().equalsIgnoreCase("/pl")) {
+            e.getPlayer().sendMessage(ChatColor.GOLD + "Ten serwer posiada plugin na bazary (Bazzars) by filippop1");
+            return;
+        }
         if (BazarManager.getBazar(e.getPlayer().getName()) == null) {
             return;
         }

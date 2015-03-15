@@ -3,9 +3,10 @@
 
 This plugin allows players to buy or sell items.
 _Recomended by:__
-* dzikoysk
-* themolkapl
+* Dzikoysk
+* TheMolkaPL
 * artur9010
+* joda17
 
 # __Polish__
 __Polecaja:__

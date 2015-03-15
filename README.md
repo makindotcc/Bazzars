@@ -9,9 +9,8 @@ __Recomended by:__
 * artur9010 (web developer)
 * joda17
 
-__commands:__
-uzupelnij to soboe
+__Commands:__
+* /bazar - list of all commands
 
-__permissions:__
-jak up
-
+__Permissions:__
+* not yet :banana:

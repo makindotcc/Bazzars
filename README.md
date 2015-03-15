@@ -2,7 +2,8 @@
 # ![Bazzars](http://i.imgur.com/e5o2dj9.png) Bazzars plugin for Bukkit
 
 This plugin allows players to buy or sell items.
-_Recomended by:__
+
+__Recomended by:__
 * Dzikoysk
 * TheMolkaPL
 * artur9010

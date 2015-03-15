@@ -40,7 +40,9 @@ public class CreateCommand extends Command {
         
         Location spawnLocation = BazzarsPlugin.getConfiguration().getSpawnLocation();
         spawnLocation.setY(player.getLocation().getY());
-        if (player.getLocation().distance(spawnLocation) > BazzarsPlugin.getConfiguration().getDistanceSpawn()) {
+        if (!player.getLocation().getWorld().getName().equals(BazzarsPlugin.getConfiguration().getSpawnLocation().getWorld().getName())) {
+            throw new CommandException("Bazar mozesz zalozyc tylko na swiecie " + BazzarsPlugin.getConfiguration().getDistanceSpawn() + "!");
+        } else if (player.getLocation().distance(spawnLocation) > BazzarsPlugin.getConfiguration().getDistanceSpawn()) {
             throw new CommandException("Nie mozesz zalozyc bazaru dalej niz " + BazzarsPlugin.getConfiguration().getDistanceSpawn() + " kratek od miejsca spawnu!");
         } else {
             bazar = new Bazar(player.getName());

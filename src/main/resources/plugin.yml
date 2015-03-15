@@ -9,5 +9,5 @@ softdepend: [HolographicDisplays]
 commands:
   bazar:
     description: 'Stworz swoj wlasny bazar!'
-    aliases: [bazzars, bazary, bazzary, bazars]
+    aliases: [bazzars, bazary, bazzary, bazars, bz]
     usage: 'Uzyj `/bazar pomoc`, aby uzyskac pomoc'

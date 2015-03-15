@@ -45,6 +45,7 @@ public class GUIShop {
         this.whoClicked = whoClicked;
         this.inventory = Bukkit.createInventory(null, size * 9, NAME_INVENTORY);
         int i = 0;
+        Inventory ownerInventory = Bukkit.getPlayer(owner).getInventory();
         for (Offer offer : this.offers) {
             ItemStack item = new ItemStack(offer.getItem());
             ItemMeta meta = item.getItemMeta();
@@ -58,9 +59,17 @@ public class GUIShop {
                     Utils.getFriendlyName(offer.getItem().getType()));
             
             if (offer.canBuy()) {
+                if (!ownerInventory.containsAtLeast(offer.getItem(), offer.getAmount())) {
+                    lore.add(ChatColor.DARK_PURPLE.toString() + ChatColor.ITALIC.toString() +
+                            "Brak towaru.");
+                }
                 lore.add(ChatColor.GOLD + "Cena kupna: " + ChatColor.YELLOW + offer.getCostBuy() + " " + BazzarsPlugin.getConfiguration().getCurrency());
             }
             if (offer.canSell()) {
+                if (!ownerInventory.containsAtLeast(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay()), offer.getCostSell())) {
+                    lore.add(ChatColor.DARK_PURPLE.toString() + ChatColor.ITALIC.toString() +
+                            "Sprzedajacy nie posiada tyle " + BazzarsPlugin.getConfiguration().getCurrency() + ".");
+                }
                 lore.add(ChatColor.GOLD + "Cena sprzedazy: " + ChatColor.YELLOW + offer.getCostSell() + " " + BazzarsPlugin.getConfiguration().getCurrency());   
             }
             meta.setLore(lore);

@@ -63,7 +63,7 @@ public class AddCommand extends Command {
         
         int id = bazar.getOffers().size() + 1;
         if (id >= 53) {
-            throw new CommandException("Maksymalna ilosc ofert to 43!");
+            throw new CommandException("Maksymalna ilosc ofert to 53!");
         }
         
         OfferBuilder builder = new OfferBuilder();

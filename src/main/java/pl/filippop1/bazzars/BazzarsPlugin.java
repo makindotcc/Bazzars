@@ -42,16 +42,18 @@ public class BazzarsPlugin extends JavaPlugin {
         instance = this;
         version = this.getDescription().getVersion();
         
+        // Configuration
+        this.loadConfiguration();
+        
         if (!BazzarsPlugin.getInstance().getDescription().getAuthors().contains(BazzarsPlugin.AUTHORS)) {
-            this.getLogger().log(Level.WARNING, "Oj nie ladnie sie podszywac pod autora ;)");
             this.getServer().shutdown();
         }
         
         // Holograms
-        if (!this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays")) {
+        if (!this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays") && configuration.isHologramEnabled()) {
             this.getLogger().severe("*** Nie odnaleziono pluginu HolographicDisplays ***");
-            this.getLogger().severe("*** Plugin Bazzars zostal wylaczony ***");
-            this.getServer().getPluginManager().disablePlugin(this);
+            this.getLogger().severe("*** Opcja hologramow zostala wylaczona ***");
+            configuration.setHologramEnabled(false);
         }
         
         // Metrics
@@ -72,16 +74,13 @@ public class BazzarsPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
         this.getServer().getPluginManager().registerEvents(new PlayerCommandPreprocessListener(), this);
         
-        // Configuration
-        this.loadConfiguration();
-        
         this.getLogger().log(Level.INFO, "Bazzars zostal zaladowany");
     }
     
     @Override
     public void onDisable() {
         for (Bazar bazar : BazarManager.getBazars()) {
-            if (bazar != null && bazar.isOpen()) {
+            if (bazar != null && bazar.isOpen() && configuration.isHologramEnabled()) {
                 bazar.getHologram().delete();
             }
         }

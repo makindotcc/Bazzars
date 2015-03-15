@@ -29,6 +29,7 @@ public class Configuration {
     private List<String> blockedCommands;
     private int distanceSpawn;
     private final FileConfiguration file;
+    private boolean holograms;
     private Material itemPay;
     private Location spawnLocation;
     
@@ -53,6 +54,10 @@ public class Configuration {
         return this.distanceSpawn;
     }
     
+    public boolean isHologramEnabled() {
+        return this.holograms;
+    }
+    
     public Material getItemPay() {
         return this.itemPay;
     }
@@ -62,11 +67,14 @@ public class Configuration {
     }
     
     private void loadConfiguration() {
+        // Enabled holograms
+        this.holograms = this.file.getBoolean("hologram", true);
+        
         // Blocked commands when player has bazaar
         this.blockedCommands = this.file.getStringList("blocked-commands");
         
         // Distance from spawn in which you can create bazaar
-        this.distanceSpawn = this.file.getInt("bazar-spawn", 30);
+        this.distanceSpawn = this.file.getInt("bazar-distance", 30);
         String worldName = this.file.getString("locations.spawn.world");
         if (worldName.equals("__DEFAULT__")) {
             worldName = Bukkit.getWorlds().get(0).getName();
@@ -96,5 +104,9 @@ public class Configuration {
             BazzarsPlugin.getInstance().getLogger().log(Level.WARNING,
                     "Nie odnaleziono przedmiotu: {0}.", item);
         }
+    }
+    
+    public void setHologramEnabled(boolean enabled) {
+        this.holograms = enabled;
     }
 }

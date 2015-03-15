@@ -19,6 +19,7 @@ package pl.filippop1.bazzars.command.def;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import pl.filippop1.bazzars.BazzarsPlugin;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 import pl.filippop1.bazzars.command.Command;
@@ -34,7 +35,7 @@ public class CloseCommand extends Command {
         Bazar bazar = BazarManager.getBazar(player.getName());
         if (bazar == null) {
             throw new CommandException("Nie posiadasz bazaru. Aby go stworzyc uzyj /bazar stworz.");
-        } else if (bazar.isOpen()) {
+        } else if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
             bazar.getHologram().delete();
         }
         

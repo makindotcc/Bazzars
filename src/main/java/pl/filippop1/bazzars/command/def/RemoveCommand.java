@@ -33,18 +33,20 @@ public class RemoveCommand extends Command {
         Bazar bazar = BazarManager.getBazar(player.getName());
         if (bazar == null) {
             throw new CommandException("Nie posiadasz bazaru. Aby go stworzyc uzyj /bazar stworz.");
+        } else if (args.length != 2) {
+            throw new CommandException("Uzycie: /bazar usun ID. Lista przedmiotow (z ID) dostepna pod /bazar list");
         }
         
         int i = 0;
         try {
-            i = Integer.valueOf(args[0]);
+            i = Integer.valueOf(args[1]);
         } catch (NumberFormatException ex) {
             throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
         }
         try {
             bazar.getOffers().remove(bazar.getOffers().get(i - 1));
         } catch (Exception ex) {
-            throw new CommandException("W argumencie wpisz ID oferty. Aby sprawdzic ID wpisz /bazar list");
+            throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
         }
         player.sendMessage(ChatColor.GREEN + "Usunales oferte.");
     }

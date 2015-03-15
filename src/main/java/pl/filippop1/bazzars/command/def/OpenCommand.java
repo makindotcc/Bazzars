@@ -51,10 +51,12 @@ public class OpenCommand extends Command {
         
         player.getInventory().removeItem(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), 1));
         bazar.setOpen(true);
-        Hologram hologram = HologramsAPI.createHologram(BazzarsPlugin.getInstance(), player.getLocation().add(0, 3.5, 0));
-        hologram.appendTextLine(bazar.getName());
-        bazar.setHologram(hologram);
-        bazar.getHologram().appendItemLine(new ItemStack(Material.CHEST));
+        if (BazzarsPlugin.getConfiguration().isHologramEnabled()) {
+            Hologram hologram = HologramsAPI.createHologram(BazzarsPlugin.getInstance(), player.getLocation().add(0, 3.5, 0));
+            hologram.appendTextLine(bazar.getName());
+            hologram.appendItemLine(new ItemStack(Material.CHEST));
+            bazar.setHologram(hologram);
+        }
         
         player.sendMessage(ChatColor.GREEN + "Stworzyles bazar!");
         player.playSound(player.getLocation(), Sound.ANVIL_USE, 2.0F, 1.0F);

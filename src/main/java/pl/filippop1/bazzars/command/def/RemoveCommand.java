@@ -47,6 +47,7 @@ public class RemoveCommand extends Command {
         for (Offer offer : bazar.getOffers()) {
             if (offer.getNumericID() == i) {
                 player.sendMessage(ChatColor.GREEN + "Usunales oferte.");
+                bazar.getOffers().remove(offer);
                 return;
             }
         }

@@ -60,10 +60,8 @@ public class InventoryClickListener implements Listener {
             e.setCancelled(true);
             player.openInventory(e.getInventory());
             
-            if (gui.getSize() < e.getSlot()) {
-                player.closeInventory();
-                return;
-            } else if (bazar.getOffers().size() < e.getSlot()) {
+            if (bazar.getOffers().size() < e.getSlot()) {
+                GUIManager.addGUIShop(gui);
                 return;
             }
             
@@ -76,8 +74,7 @@ public class InventoryClickListener implements Listener {
                 type = TypeGUI.SELL;
                 title = ChatColor.RED + "Sprzedaje to?";
             } else {
-                GUIManager.removeGUIShop(gui);
-                player.closeInventory();
+                GUIManager.addGUIShop(gui);
                 return;
             }
             GUIConfirm guiConfirm = new GUIConfirm(Bukkit.createInventory(null, 27, title),
@@ -105,12 +102,12 @@ public class InventoryClickListener implements Listener {
             }
             
             Bazar bazar = BazarManager.getBazar(guiConfirm.getOwner());
-            Player target = Bukkit.getPlayer(bazar.getOwner());
-            if (target == null || !bazar.isOpen()) {
+            if (bazar == null || !bazar.isOpen()) {
                 player.sendMessage(ChatColor.RED + "Bazar jest zamkniety.");
                 player.closeInventory();
                 return;
             }
+            Player target = Bukkit.getPlayer(bazar.getOwner());
             
             Inventory targetInventory = target.getInventory();
             Inventory playerInventory = player.getInventory();
@@ -154,6 +151,8 @@ public class InventoryClickListener implements Listener {
             } else if (clicked.getType() == Material.REDSTONE_BLOCK && clicked.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + String.valueOf(ChatColor.BOLD) + "NIE")) {
                 player.closeInventory();
                 GUIManager.removeGUIConfirm(guiConfirm);
+            } else {
+                GUIManager.addGUIConfirm(guiConfirm);
             }
         }
     }

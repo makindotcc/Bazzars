@@ -20,22 +20,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerChangedWorldEvent;
 import pl.filippop1.bazzars.BazzarsPlugin;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 
-public class PlayerQuitListener implements Listener {
+public class WorldChangeListener implements Listener {
     @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent e) {
-        Bazar bazar = BazarManager.getBazar(e.getPlayer().getName());
-        if (bazar != null) {
-            BazarManager.removeBazar(bazar);
-            if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-                try {
-                    bazar.getHologram().destroy();
-                } catch (Exception ex) {
-                    Logger.getLogger(PlayerQuitListener.class.getName()).log(Level.SEVERE, null, ex);
+    public void onWorldChange(PlayerChangedWorldEvent e) {
+        for (Bazar bazar : BazarManager.getBazars()) {
+            if (bazar != null) {
+                if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
+                    try {
+                        bazar.getHologram().show(bazar.getHologram().getLocation(), e.getPlayer());
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
         }

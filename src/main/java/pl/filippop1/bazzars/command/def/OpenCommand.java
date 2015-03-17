@@ -16,14 +16,12 @@
 
 package pl.filippop1.bazzars.command.def;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.filippop1.bazzars.BazzarsPlugin;
+import pl.filippop1.bazzars.Hologram;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 import pl.filippop1.bazzars.command.Command;
@@ -52,9 +50,8 @@ public class OpenCommand extends Command {
         player.getInventory().removeItem(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), 1));
         bazar.setOpen(true);
         if (BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-            Hologram hologram = HologramsAPI.createHologram(BazzarsPlugin.getInstance(), player.getLocation().add(0, 3.5, 0));
-            hologram.appendTextLine(bazar.getName());
-            hologram.appendItemLine(new ItemStack(Material.CHEST));
+            Hologram hologram = new Hologram(bazar.getName(), player.getLocation().add(0, 2, 0));
+            hologram.change(new String[] { bazar.getName() });
             bazar.setHologram(hologram);
         }
         

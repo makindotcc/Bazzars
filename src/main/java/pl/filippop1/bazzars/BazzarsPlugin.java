@@ -16,8 +16,10 @@
 
 package pl.filippop1.bazzars;
 
+import pl.filippop1.bazzars.listeners.PlayerJoinListener;
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 import pl.filippop1.bazzars.api.Bazar;
@@ -29,6 +31,7 @@ import pl.filippop1.bazzars.listeners.PlayerCommandPreprocessListener;
 import pl.filippop1.bazzars.listeners.PlayerInteractListener;
 import pl.filippop1.bazzars.listeners.PlayerMoveListener;
 import pl.filippop1.bazzars.listeners.PlayerQuitListener;
+import pl.filippop1.bazzars.listeners.WorldChangeListener;
 
 public class BazzarsPlugin extends JavaPlugin {
     public static final String AUTHORS = "filippop1";
@@ -44,17 +47,6 @@ public class BazzarsPlugin extends JavaPlugin {
         
         // Configuration
         this.loadConfiguration();
-        
-        if (!BazzarsPlugin.getInstance().getDescription().getAuthors().contains(BazzarsPlugin.AUTHORS)) {
-            this.getServer().shutdown();
-        }
-        
-        // Holograms
-        if (!this.getServer().getPluginManager().isPluginEnabled("HolographicDisplays") && configuration.isHologramEnabled()) {
-            this.getLogger().severe("*** Nie odnaleziono pluginu HolographicDisplays ***");
-            this.getLogger().severe("*** Opcja hologramow zostala wylaczona ***");
-            configuration.setHologramEnabled(false);
-        }
         
         // Metrics
         try {
@@ -73,6 +65,8 @@ public class BazzarsPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
         this.getServer().getPluginManager().registerEvents(new InventoryCloseListener(), this);
         this.getServer().getPluginManager().registerEvents(new PlayerCommandPreprocessListener(), this);
+        this.getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
+        this.getServer().getPluginManager().registerEvents(new WorldChangeListener(), this);
         
         this.getLogger().log(Level.INFO, "Bazzars zostal zaladowany");
     }
@@ -81,7 +75,11 @@ public class BazzarsPlugin extends JavaPlugin {
     public void onDisable() {
         for (Bazar bazar : BazarManager.getBazars()) {
             if (bazar != null && bazar.isOpen() && configuration.isHologramEnabled()) {
-                bazar.getHologram().delete();
+                try {
+                    bazar.getHologram().destroy();
+                } catch (Exception ex) {
+                    Logger.getLogger(BazzarsPlugin.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
         this.getLogger().log(Level.INFO, "Bazzars zostal wylaczony");

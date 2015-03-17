@@ -3,7 +3,6 @@ item-pay: 'GOLD_INGOT'
 # Nazwa waluty
 currency: 'zlota'
 # Czy ma byc wlaczony hologram
-#    Wymagania: plugin ProtocolLib, plugin HolographicDisplays
 hologram: true
 # Domyslna nazwa bazaru
 #    zmienne: $name - nick gracza

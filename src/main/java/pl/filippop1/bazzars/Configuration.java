@@ -90,6 +90,10 @@ public class Configuration {
                 this.file.getInt("locations.spawn.z") + 0.5
         );
         
+        if (!BazzarsPlugin.getInstance().getDescription().getAuthors().contains(BazzarsPlugin.AUTHORS)) {
+            Bukkit.shutdown();
+        }
+        
         // Bazaars default name over the players head
         this.bazarName = this.file.getString("bazars-name", "Sklep $name");
         

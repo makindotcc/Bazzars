@@ -16,10 +16,10 @@
 
 package pl.filippop1.bazzars.api;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
 import java.util.ArrayList;
 import java.util.List;
 import pl.filippop1.bazzars.BazzarsPlugin;
+import pl.filippop1.bazzars.Hologram;
 
 public class Bazar {
     public static final int MAX_NAME_LENGTH = 25;

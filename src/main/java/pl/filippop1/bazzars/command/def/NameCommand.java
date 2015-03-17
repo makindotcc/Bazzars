@@ -55,10 +55,8 @@ public class NameCommand extends Command {
         }
         
         bazar.setName(name);
-        if (bazar.isOpen()) {
-            bazar.getHologram().clearLines();
-            bazar.getHologram().appendTextLine(bazar.getName());
-            bazar.getHologram().appendItemLine(new ItemStack(Material.CHEST));
+        if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
+            bazar.getHologram().change(new String[] { name });
         }
         player.sendMessage(ChatColor.GREEN + "Zmieniono nazwe bazaru.");
     }

@@ -59,6 +59,10 @@ public class InventoryClickListener implements Listener {
             Bazar bazar = BazarManager.getBazar(gui.getOwner());
             e.setCancelled(true);
             player.openInventory(e.getInventory());
+            if (bazar == null || !bazar.isOpen()) {
+                GUIManager.addGUIShop(gui);
+                return;
+            }
             
             if (bazar.getOffers().size() < e.getRawSlot()) {
                 GUIManager.addGUIShop(gui);
@@ -95,7 +99,7 @@ public class InventoryClickListener implements Listener {
             
             e.setCancelled(true);
             player.openInventory(e.getInventory());
-            if (e.getClick() != ClickType.LEFT || e.getClick() != ClickType.RIGHT) {
+            if (!(e.getClick() == ClickType.LEFT || e.getClick() == ClickType.RIGHT)) {
                 GUIManager.removeGUIConfirm(guiConfirm);
                 player.closeInventory();
                 return;
@@ -115,7 +119,6 @@ public class InventoryClickListener implements Listener {
                     && clicked.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.GREEN + String.valueOf(ChatColor.BOLD) + "TAK")) {
                 Offer offer = bazar.getOffers().get(guiConfirm.getSlot());
                 GUIManager.removeGUIConfirm(guiConfirm);
-                
                 if (guiConfirm.getType() == TypeGUI.BUY) {
                     if (!offer.canBuy()) {
                         player.sendMessage(ChatColor.RED + "Ten przedmiot mozesz tylko sprzedac w tym bazarze!");
@@ -159,7 +162,7 @@ public class InventoryClickListener implements Listener {
     }
     
     private String getOfferName(Offer offer) {
-        return offer.getItem().getType().toString().toLowerCase().replace("_", "") 
+        return offer.getItem().getType().toString().toLowerCase().replace("_", " ") 
                 + ChatColor.GRAY + " (ilosc: " + offer.getAmount() + ")";
     }
     

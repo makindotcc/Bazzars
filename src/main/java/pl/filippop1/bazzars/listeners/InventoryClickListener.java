@@ -95,7 +95,7 @@ public class InventoryClickListener implements Listener {
             
             e.setCancelled(true);
             player.openInventory(e.getInventory());
-            if (!e.isLeftClick() || !e.isRightClick()) {
+            if (e.getClick() != ClickType.LEFT || e.getClick() != ClickType.RIGHT) {
                 GUIManager.removeGUIConfirm(guiConfirm);
                 player.closeInventory();
                 return;

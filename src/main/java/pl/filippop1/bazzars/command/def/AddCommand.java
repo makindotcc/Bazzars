@@ -19,6 +19,7 @@ package pl.filippop1.bazzars.command.def;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import pl.filippop1.bazzars.BazzarsPlugin;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 import pl.filippop1.bazzars.api.OfferBuilder;
@@ -44,6 +45,8 @@ public class AddCommand extends Command {
             throw new CommandException("Nie mozesz dodawac ofert gdy Twoj bazar jest otwarty!");
         } else if (player.getItemInHand().getType() == Material.AIR) {
             throw new CommandException("Musisz trzymac w reku przedmiot, ktory chcesz wystawic.");
+        } else if (player.getItemInHand().getType() == BazzarsPlugin.getConfiguration().getItemPay()) {
+            throw new CommandException("Nie mozesz sprzedac " + BazzarsPlugin.getConfiguration().getCurrency());
         }
 
         int costBuy, costSell;

@@ -47,7 +47,6 @@ public class OpenCommand extends Command {
             throw new CommandException("Aby otworzyc bazar musisz miec 1 " + BazzarsPlugin.getConfiguration().getCurrency());
         }
         
-        player.getInventory().removeItem(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), 1));
         bazar.setOpen(true);
         if (BazzarsPlugin.getConfiguration().isHologramEnabled()) {
             Hologram hologram = new Hologram(bazar.getName(), player.getLocation().add(0, 2, 0));
@@ -59,5 +58,6 @@ public class OpenCommand extends Command {
         player.playSound(player.getLocation(), Sound.ANVIL_USE, 2.0F, 1.0F);
         player.sendMessage(ChatColor.GREEN + "Aby usunac bazar wpisz /bazar usun");
         player.sendMessage(ChatColor.GREEN + "Aby zmienic oferte wpisz /bazar zmien");
+        player.getInventory().removeItem(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), 1));
     }
 }

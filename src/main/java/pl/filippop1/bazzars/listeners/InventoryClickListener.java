@@ -60,7 +60,7 @@ public class InventoryClickListener implements Listener {
             e.setCancelled(true);
             player.openInventory(e.getInventory());
             
-            if (bazar.getOffers().size() < e.getSlot()) {
+            if (bazar.getOffers().size() < e.getRawSlot()) {
                 GUIManager.addGUIShop(gui);
                 return;
             }
@@ -95,7 +95,7 @@ public class InventoryClickListener implements Listener {
             
             e.setCancelled(true);
             player.openInventory(e.getInventory());
-            if (!(e.getClick() == ClickType.LEFT || e.getClick() == ClickType.RIGHT)) {
+            if (!e.isLeftClick() || !e.isRightClick()) {
                 GUIManager.removeGUIConfirm(guiConfirm);
                 player.closeInventory();
                 return;
@@ -127,7 +127,7 @@ public class InventoryClickListener implements Listener {
                         player.sendMessage(ChatColor.RED + "Nie posiadasz tyle " + BazzarsPlugin.getConfiguration().getCurrency() + " (" + offer.getCostBuy() + ")");
                         player.closeInventory();
                     } else {
-                        this.trade(offer, playerInventory, targetInventory, offer.getCostBuy());
+                        this.trade(new ItemStack(offer.getItem()), playerInventory, targetInventory, offer.getCostBuy());
                         player.sendMessage(ChatColor.GREEN + "Zakupiles przedmiot " + this.getOfferName(offer));
                         target.sendMessage(ChatColor.GREEN + player.getName() + " zakupil od Ciebie przedmiot " + this.getOfferName(offer));
                         player.closeInventory();
@@ -143,9 +143,10 @@ public class InventoryClickListener implements Listener {
                         player.sendMessage(ChatColor.RED + target.getName() + " nie posiada tylu " + BazzarsPlugin.getConfiguration().getCurrency());
                         player.closeInventory();
                     } else {
-                        this.trade(offer, targetInventory, playerInventory, offer.getCostSell());
+                        this.trade(new ItemStack(offer.getItem()), targetInventory, playerInventory, offer.getCostSell());
                         player.sendMessage(ChatColor.GREEN + "Sprzedales przedmiot " + this.getOfferName(offer));
                         target.sendMessage(ChatColor.GREEN + player.getName() + " sprzedal Ci przedmiot " + this.getOfferName(offer));
+                        player.closeInventory();
                     }
                 }
             } else if (clicked.getType() == Material.REDSTONE_BLOCK && clicked.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + String.valueOf(ChatColor.BOLD) + "NIE")) {
@@ -162,11 +163,11 @@ public class InventoryClickListener implements Listener {
                 + ChatColor.GRAY + " (ilosc: " + offer.getAmount() + ")";
     }
     
-    private void trade(Offer offer, Inventory playerInventory, Inventory targetInventory, int cost) {
-        ItemStack item = new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), offer.getCostBuy());
-        targetInventory.removeItem(offer.getItem());
-        playerInventory.removeItem(item);
+    private void trade(ItemStack offer, Inventory playerInventory, Inventory targetInventory, int cost) {
+        ItemStack item = new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), cost);
+        targetInventory.removeItem(offer);
         targetInventory.addItem(item);
-        playerInventory.addItem(offer.getItem());
+        playerInventory.removeItem(item);
+        playerInventory.addItem(offer);
     }
 }

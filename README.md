@@ -7,6 +7,8 @@ __Recomended by:__
 * [TheMolkaPL](https://github.com/TheMolkaPL)
 * [artur9010](https://github.com/artur9010) - web developer
 * [joda17](https://github.com/joda17)
+* ForeverAloneTeam™©.
+* [Jvmper](https://github.com/Zahusek)
 
 __Commands:__
 * /bazar - list of all commands

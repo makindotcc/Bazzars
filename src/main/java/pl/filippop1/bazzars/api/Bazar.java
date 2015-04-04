@@ -25,6 +25,7 @@ public class Bazar {
     public static final int MAX_NAME_LENGTH = 25;
     
     private Hologram hologram;
+    private int lastID = 1;
     private String name;
     private final List<Offer> offers;
     private boolean open;
@@ -41,11 +42,16 @@ public class Bazar {
     }
     
     public void addOffer(Offer offer) {
+        this.lastID++;
         this.offers.add(offer);
     }
     
     public Hologram getHologram() {
         return this.hologram;
+    }
+    
+    public int getLastID() {
+        return this.lastID;
     }
     
     public String getName() {

@@ -36,6 +36,7 @@ import pl.filippop1.bazzars.listeners.WorldChangeListener;
 public class BazzarsPlugin extends JavaPlugin {
     public static final String AUTHORS = "filippop1";
     public static final String SOURCE_URL = "https://github.com/Thefilippop1PL/Bazzars";
+    public static final String UPDATER = "https://raw.githubusercontent.com/Thefilippop1PL/Bazzars/master/updater.txt";
     private static Configuration configuration;
     private static BazzarsPlugin instance;
     private static String version;
@@ -69,6 +70,8 @@ public class BazzarsPlugin extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(new WorldChangeListener(), this);
         
         this.getLogger().log(Level.INFO, "Bazzars zostal zaladowany");
+        
+        this.getServer().getScheduler().runTaskLaterAsynchronously(this, new PluginUpdater(), 20L);
     }
     
     @Override

@@ -22,6 +22,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import pl.filippop1.bazzars.BazzarsPlugin;
+import pl.filippop1.bazzars.PluginUpdater;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 
@@ -38,6 +39,11 @@ public class PlayerJoinListener implements Listener {
                     }
                 }
             }
+        }
+        
+        // Updater
+        if (e.getPlayer().isOp()) {
+            PluginUpdater.print(e.getPlayer());
         }
     }
 }

@@ -76,8 +76,9 @@ public class HelpCommand extends Command {
     }
     
     private void showCommands(CommandSender sender, CommandExecutor manager) {
-        sender.sendMessage(ChatColor.YELLOW + "+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" );
-        sender.sendMessage(ChatColor.YELLOW + "+  " + ChatColor.BLUE + ChatColor.BOLD + " Bazary:");
+        sender.sendMessage(ChatColor.YELLOW + "+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+        sender.sendMessage(ChatColor.YELLOW + "+  " + ChatColor.BLUE + ChatColor.BOLD +
+                " Bazary: " + ChatColor.RESET + ChatColor.BLUE + "by filippop1");
         for (String cmd : manager.getCommands()) {
             Command command = manager.getCommand(cmd);
             if (cmd.equals(command.getName())) {
@@ -93,7 +94,7 @@ public class HelpCommand extends Command {
                 }
             }
         }
-        sender.sendMessage(ChatColor.YELLOW + "+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-" );
+        sender.sendMessage(ChatColor.YELLOW + "+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
         sender.sendMessage(ChatColor.GREEN + "Uzyj /bazar pomoc <komenda>, aby otrzymac dokladne informacje o komendzie");
     }
     

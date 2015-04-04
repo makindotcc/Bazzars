@@ -64,7 +64,7 @@ public class AddCommand extends Command {
             throw new CommandException("Przedmiot ktory wystawiles/as nie posiada cen! ");
         }
         
-        int id = bazar.getOffers().size() + 1;
+        int id = bazar.getLastID();
         if (id >= 53) {
             throw new CommandException("Maksymalna ilosc ofert to 53!");
         }

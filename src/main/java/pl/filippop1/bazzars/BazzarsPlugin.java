@@ -34,7 +34,7 @@ import pl.filippop1.bazzars.listeners.PlayerQuitListener;
 import pl.filippop1.bazzars.listeners.WorldChangeListener;
 
 public class BazzarsPlugin extends JavaPlugin {
-    public static final String AUTHORS = "filippop1";
+    public static final String AUTHORS = "Dzikoysk (hologramy) & filippop1";
     public static final String SOURCE_URL = "https://github.com/Thefilippop1PL/Bazzars";
     public static final String UPDATER = "https://raw.githubusercontent.com/Thefilippop1PL/Bazzars/master/updater.txt";
     private static Configuration configuration;

@@ -72,7 +72,7 @@ public class AddCommand extends Command {
         OfferBuilder builder = new OfferBuilder();
         builder.amount(player.getItemInHand().getAmount());
         builder.costBuy(costBuy).costSell(costSell);
-        builder.item(player.getItemInHand());
+        builder.item(player.getItemInHand().clone());
         builder.numericID(id);
         
         bazar.addOffer(builder.toOffer());

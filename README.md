@@ -15,3 +15,6 @@ __Commands:__
 
 __Permissions:__
 * not yet :banana:
+
+
+Copyright :copyright: 2015 filippop1

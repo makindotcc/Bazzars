@@ -38,7 +38,7 @@ public class AddCommand extends Command {
             throw new CommandException("Uzycie: " + this.getUsage() + ". Uzyj -1 jezeli nie chcesz sprzedawac/kupowac!");
         }
         
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
             throw new CommandException("Stworz bazar, aby dodac do niego oferte uzywajac /bazar stworz!");
         } else if (bazar.isOpen()) {
@@ -55,20 +55,21 @@ public class AddCommand extends Command {
         } catch (NumberFormatException ex) {
             throw new CommandException("Podaj cene kupna!");
         }
+
         try {
             costSell = Integer.valueOf(args[1]);
         } catch (NumberFormatException ex) {
             throw new CommandException("Podaj cene sprzedazy!");
         }
-        if (costBuy < 0 && costSell < 0) {
+        if (costBuy <= 0 && costSell <= 0) {
             throw new CommandException("Przedmiot ktory wystawiles/as nie posiada cen! ");
         }
-        
-        int id = bazar.getLastID();
-        if (id >= 53) {
-            throw new CommandException("Maksymalna ilosc ofert to 53!");
+
+        if (bazar.getOffers().size() >= 53) {
+            throw new CommandException("Mozesz maksymalnie dodac 53 oferty!");
         }
-        
+
+        int id = bazar.getLastID();
         OfferBuilder builder = new OfferBuilder();
         builder.amount(player.getItemInHand().getAmount());
         builder.costBuy(costBuy).costSell(costSell);

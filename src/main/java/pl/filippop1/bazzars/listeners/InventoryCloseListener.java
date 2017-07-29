@@ -16,7 +16,6 @@
 
 package pl.filippop1.bazzars.listeners;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
@@ -27,12 +26,9 @@ import pl.filippop1.bazzars.gui.GUIShop;
 public class InventoryCloseListener implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent e) {
-        Player player = (Player) e.getPlayer();
-        
         GUIConfirm guiConfirm = GUIManager.getGUIConfirm(e.getInventory());
         if (guiConfirm != null) {
             GUIManager.removeGUIConfirm(guiConfirm);
-            return;
         }
         
         GUIShop guiShop = GUIManager.getGUIShop(e.getInventory());

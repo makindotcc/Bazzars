@@ -49,7 +49,9 @@ public class InventoryClickListener implements Listener {
         
         if(clicked == null || clicked.getType() == Material.AIR || inventory.getName() == null){
             return;
-        } else if (inventory.getName().equalsIgnoreCase(GUIShop.NAME_INVENTORY)) {
+        }
+
+        if (inventory.getName().equalsIgnoreCase(GUIShop.NAME_INVENTORY)) {
             GUIShop gui = GUIManager.getGUIShop(e.getInventory());
             if (gui == null) {
                 player.closeInventory();
@@ -58,14 +60,11 @@ public class InventoryClickListener implements Listener {
             
             Bazar bazar = BazarManager.getBazar(gui.getOwner());
             e.setCancelled(true);
-            player.openInventory(e.getInventory());
             if (bazar == null || !bazar.isOpen()) {
-                GUIManager.addGUIShop(gui);
-                return;
-            }
-            
-            if (bazar.getOffers().size() < e.getRawSlot()) {
-                GUIManager.addGUIShop(gui);
+                player.sendMessage(ChatColor.RED + "Bazar jest zamkniety.");
+                // samo powinno sie usunac, ale dla bezpieczenstwa
+                GUIManager.removeGUIShop(gui);
+                player.closeInventory();
                 return;
             }
             
@@ -78,9 +77,9 @@ public class InventoryClickListener implements Listener {
                 type = TypeGUI.SELL;
                 title = ChatColor.RED + "Sprzedaje to?";
             } else {
-                GUIManager.addGUIShop(gui);
                 return;
             }
+
             GUIConfirm guiConfirm = new GUIConfirm(Bukkit.createInventory(null, 27, title),
                     bazar.getOffers().get(e.getSlot()).getItem(), 
                     gui.getOwner(),
@@ -98,16 +97,14 @@ public class InventoryClickListener implements Listener {
             }
             
             e.setCancelled(true);
-            player.openInventory(e.getInventory());
             if (!(e.getClick() == ClickType.LEFT || e.getClick() == ClickType.RIGHT)) {
-                GUIManager.removeGUIConfirm(guiConfirm);
-                player.closeInventory();
                 return;
             }
             
             Bazar bazar = BazarManager.getBazar(guiConfirm.getOwner());
             if (bazar == null || !bazar.isOpen()) {
                 player.sendMessage(ChatColor.RED + "Bazar jest zamkniety.");
+                GUIManager.removeGUIConfirm(guiConfirm);
                 player.closeInventory();
                 return;
             }
@@ -122,35 +119,29 @@ public class InventoryClickListener implements Listener {
                 if (guiConfirm.getType() == TypeGUI.BUY) {
                     if (!offer.canBuy()) {
                         player.sendMessage(ChatColor.RED + "Ten przedmiot mozesz tylko sprzedac w tym bazarze!");
-                        player.closeInventory();
                     } else if (!targetInventory.containsAtLeast(offer.getItem(), offer.getAmount())) {
                         player.sendMessage(ChatColor.RED + "Przedmiot zostal wyprzedany!");
-                        player.closeInventory();
                     } else if (!playerInventory.containsAtLeast(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay()), offer.getCostBuy())) {
-                        player.sendMessage(ChatColor.RED + "Nie posiadasz tyle " + BazzarsPlugin.getConfiguration().getCurrency() + " (" + offer.getCostBuy() + ")");
-                        player.closeInventory();
+                        player.sendMessage(ChatColor.RED + "Nie posiadasz tylu " + BazzarsPlugin.getConfiguration().getCurrency() + " (" + offer.getCostBuy() + ")");
                     } else {
                         this.trade(new ItemStack(offer.getItem()), playerInventory, targetInventory, offer.getCostBuy());
                         player.sendMessage(ChatColor.GREEN + "Zakupiles przedmiot " + this.getOfferName(offer));
                         target.sendMessage(ChatColor.GREEN + player.getName() + " zakupil od Ciebie przedmiot " + this.getOfferName(offer));
-                        player.closeInventory();
                     }
+                    player.closeInventory();
                 } else if (guiConfirm.getType() == TypeGUI.SELL) {
                     if (!offer.canSell()) {
                         player.sendMessage(ChatColor.RED + "Ten przedmiot mozesz tylko kupic w tym bazarze!");
-                        player.closeInventory();
                     } else if (!playerInventory.containsAtLeast(offer.getItem(), offer.getAmount())) {
                         player.sendMessage(ChatColor.RED + "Nie posiadasz " + Utils.getFriendlyName(offer.getItem().getType()) + "!");
-                        player.closeInventory();
                     } else if (!targetInventory.containsAtLeast(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay()), offer.getCostSell())) {
                         player.sendMessage(ChatColor.RED + target.getName() + " nie posiada tylu " + BazzarsPlugin.getConfiguration().getCurrency());
-                        player.closeInventory();
                     } else {
                         this.trade(new ItemStack(offer.getItem()), targetInventory, playerInventory, offer.getCostSell());
                         player.sendMessage(ChatColor.GREEN + "Sprzedales przedmiot " + this.getOfferName(offer));
                         target.sendMessage(ChatColor.GREEN + player.getName() + " sprzedal Ci przedmiot " + this.getOfferName(offer));
-                        player.closeInventory();
                     }
+                    player.closeInventory();
                 }
             } else if (clicked.getType() == Material.REDSTONE_BLOCK && clicked.getItemMeta().getDisplayName().equalsIgnoreCase(ChatColor.RED + String.valueOf(ChatColor.BOLD) + "NIE")) {
                 player.closeInventory();

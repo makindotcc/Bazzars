@@ -77,8 +77,7 @@ public class HelpCommand extends Command {
     
     private void showCommands(CommandSender sender, CommandExecutor manager) {
         sender.sendMessage(ChatColor.YELLOW + "+-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
-        sender.sendMessage(ChatColor.YELLOW + "+  " + ChatColor.BLUE + ChatColor.BOLD +
-                " Bazary: " + ChatColor.RESET + ChatColor.BLUE + "by filippop1");
+        sender.sendMessage(ChatColor.YELLOW + "+  " + ChatColor.BLUE + ChatColor.BOLD + " Bazary: ");
         for (String cmd : manager.getCommands()) {
             Command command = manager.getCommand(cmd);
             if (cmd.equals(command.getName())) {

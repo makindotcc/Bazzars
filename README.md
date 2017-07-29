@@ -15,3 +15,6 @@ __Commands:__
 
 __Permissions:__
 * not yet :banana:
+
+__Dependencies:__
+* [HologramAPI](https://www.spigotmc.org/resources/api-hologramapi-1-7-1-8-1-9-1-10.6766/)

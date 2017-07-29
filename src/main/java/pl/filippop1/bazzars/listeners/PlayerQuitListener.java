@@ -16,8 +16,6 @@
 
 package pl.filippop1.bazzars.listeners;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -28,15 +26,11 @@ import pl.filippop1.bazzars.api.BazarManager;
 public class PlayerQuitListener implements Listener {
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
-        Bazar bazar = BazarManager.getBazar(e.getPlayer().getName());
+        Bazar bazar = BazarManager.getBazar(e.getPlayer().getUniqueId());
         if (bazar != null) {
             BazarManager.removeBazar(bazar);
-            if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-                try {
-                    bazar.getHologram().destroy();
-                } catch (Exception ex) {
-                    Logger.getLogger(PlayerQuitListener.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            if (bazar.getHologram() != null && bazar.getHologram().isSpawned()) {
+                bazar.getHologram().despawn();
             }
         }
     }

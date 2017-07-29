@@ -33,11 +33,11 @@ public class NameCommand extends Command {
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
             throw new CommandException("Stworz bazar, aby zmienic jego nazwe! Aby to zrobic uzyj /bazar stworz.");
         } else if (args.length > 1 && args[1].equalsIgnoreCase("reset")) {
-            this.reset(bazar);
+            this.reset(bazar, player);
             player.sendMessage(ChatColor.GREEN + "Nazwa Twojego bazaru zostala zresetowana.");
             return;
         } else if (args.length == 1) {
@@ -56,12 +56,13 @@ public class NameCommand extends Command {
         
         bazar.setName(name);
         if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-            bazar.getHologram().change(new String[] { name });
+            bazar.getHologram().setText(name);
+            bazar.getHologram().update();
         }
         player.sendMessage(ChatColor.GREEN + "Zmieniono nazwe bazaru.");
     }
     
-    private void reset(Bazar bazar) {
-        bazar.setName(BazzarsPlugin.getConfiguration().getBazarDefaultName(bazar.getOwner()));
+    private void reset(Bazar bazar, Player player) {
+        bazar.setName(BazzarsPlugin.getConfiguration().getBazarDefaultName(player.getName()));
     }
 }

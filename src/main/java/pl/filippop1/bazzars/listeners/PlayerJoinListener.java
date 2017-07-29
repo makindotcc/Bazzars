@@ -16,31 +16,14 @@
 
 package pl.filippop1.bazzars.listeners;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import pl.filippop1.bazzars.BazzarsPlugin;
-import pl.filippop1.bazzars.PluginUpdater;
-import pl.filippop1.bazzars.api.Bazar;
-import pl.filippop1.bazzars.api.BazarManager;
+import pl.filippop1.bazzars.task.PluginUpdater;
 
 public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
-        for (Bazar bazar : BazarManager.getBazars()) {
-            if (bazar != null) {
-                if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-                    try {
-                        bazar.getHologram().show(bazar.getHologram().getLocation(), e.getPlayer());
-                    } catch (Exception ex) {
-                        Logger.getLogger(BazzarsPlugin.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        }
-        
         // Updater
         if (e.getPlayer().isOp()) {
             PluginUpdater.print(e.getPlayer());

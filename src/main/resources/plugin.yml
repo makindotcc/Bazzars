@@ -1,5 +1,5 @@
 name: Bazzars
-authors: [Dzikosyk (hologramy), filippop1]
+authors: [filippop1]
 version: '${project.version}'
 description: 'Bazary do handlowania przedmiotami pomiedzy graczami'
 website: 'https://github.com/Thefilippop1PL/Bazzars'

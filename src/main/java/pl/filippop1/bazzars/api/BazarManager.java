@@ -16,15 +16,26 @@
 
 package pl.filippop1.bazzars.api;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 public class BazarManager {
     private static final List<Bazar> bazzars = new ArrayList<>();
+    private final static Cache<UUID, Bazar> uuidBazarCache = CacheBuilder.newBuilder().expireAfterAccess(1, TimeUnit.MINUTES).build();
     
-    public static Bazar getBazar(String player) {
+    public static Bazar getBazar(UUID player) {
+        Bazar bazar = uuidBazarCache.getIfPresent(player);
+        if (bazar != null)
+            return bazar;
+
         for (Bazar b : bazzars) {
-            if (b.getOwner().equalsIgnoreCase(player)) {
+            if (b.getOwner().equals(player)) {
+                uuidBazarCache.put(player, b);
                 return b;
             }
         }
@@ -36,16 +47,14 @@ public class BazarManager {
     }
     
     public static void removeBazar(Bazar bazar) {
+        uuidBazarCache.invalidate(bazar.getOwner());
         bazzars.remove(bazar);
     }
     
-    public static boolean removeBazar(String player) {
-       Bazar bazar = BazarManager.getBazar(player);
-       if (bazar != null) {
-           return bazzars.remove(bazar);
-       } else {
-           return false;
-       }
+    public static boolean removeBazar(UUID player) {
+        uuidBazarCache.invalidate(player);
+        Bazar bazar = BazarManager.getBazar(player);
+        return bazar != null && bazzars.remove(bazar);
     }
     
     public static List<Bazar> getBazars() {

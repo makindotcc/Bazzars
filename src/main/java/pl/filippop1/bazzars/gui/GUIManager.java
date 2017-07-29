@@ -18,6 +18,8 @@ package pl.filippop1.bazzars.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.inventory.Inventory;
 
 public class GUIManager {
@@ -40,7 +42,7 @@ public class GUIManager {
         }
         return null;
     }
-    
+
     public static GUIShop getGUIShop(Inventory player) {
         for (GUIShop gui : guiShop) {
             if (gui.getInventory().equals(player)) {
@@ -49,7 +51,16 @@ public class GUIManager {
         }
         return null;
     }
-    
+
+    public static GUIShop getGUIShop(UUID player) {
+        for (GUIShop gui : guiShop) {
+            if (gui.getOwner().equals(player)) {
+                return gui;
+            }
+        }
+        return null;
+    }
+
     public static void removeGUIConfirm(GUIConfirm gui) {
         guiConfirm.remove(gui);
     }

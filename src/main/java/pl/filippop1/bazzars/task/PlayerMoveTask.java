@@ -14,27 +14,21 @@
  * limitations under the License.
  */
 
-package pl.filippop1.bazzars.listeners;
+package pl.filippop1.bazzars.task;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 
-public class PlayerMoveListener implements Listener {
-    @EventHandler
-    public void onPlayerMove(PlayerMoveEvent e) {
-        Player player = e.getPlayer();
-        Bazar bazar = BazarManager.getBazar(player.getName());
-        
-        if (bazar != null) {
-            if (!e.getFrom().getWorld().equals(e.getTo().getWorld()) ||
-                    e.getFrom().getX() != e.getTo().getX() ||
-                    e.getFrom().getY () != e.getTo().getY() ||
-                    e.getFrom().getZ() != e.getTo().getZ()) {
-                player.teleport(e.getFrom());
+public class PlayerMoveTask implements Runnable {
+    @Override
+    public void run() {
+        for (Bazar bazar : BazarManager.getBazars()) {
+            Player player = Bukkit.getPlayer(bazar.getOwner());
+            if (!player.getLocation().getWorld().equals(bazar.getLocation().getWorld())
+                    || player.getLocation().distance(bazar.getLocation()) >= 0.5) {
+                player.teleport(bazar.getLocation());
             }
         }
     }

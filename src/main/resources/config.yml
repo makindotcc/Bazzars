@@ -17,6 +17,7 @@ blocked-commands:
   - '/return'
   - '/ret'
   - '/call'
+  - '/back'
   - '/tpa'
   - '/home'
   - '/warp'

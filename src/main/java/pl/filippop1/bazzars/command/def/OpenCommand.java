@@ -16,12 +16,13 @@
 
 package pl.filippop1.bazzars.command.def;
 
+import de.inventivegames.hologram.Hologram;
+import de.inventivegames.hologram.HologramAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.filippop1.bazzars.BazzarsPlugin;
-import pl.filippop1.bazzars.Hologram;
 import pl.filippop1.bazzars.api.Bazar;
 import pl.filippop1.bazzars.api.BazarManager;
 import pl.filippop1.bazzars.command.Command;
@@ -34,7 +35,7 @@ public class OpenCommand extends Command {
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
             throw new CommandException("Aby otworzyc bazar musisz go najpierw stworzyc! Aby to zrobic uzyj /bazar stworz.");
         }
@@ -49,13 +50,14 @@ public class OpenCommand extends Command {
         
         bazar.setOpen(true);
         if (BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-            Hologram hologram = new Hologram(bazar.getName(), player.getLocation().add(0, 2, 0));
-            hologram.change(new String[] { bazar.getName() });
+            Hologram hologram = HologramAPI.createHologram(bazar.getLocation().clone().add(0, 3, 0),
+                    bazar.getName());
+            hologram.spawn();
             bazar.setHologram(hologram);
         }
         
         player.sendMessage(ChatColor.GREEN + "Stworzyles bazar!");
-        player.playSound(player.getLocation(), Sound.ANVIL_USE, 2.0F, 1.0F);
+        //player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0F, 1.0F);
         player.sendMessage(ChatColor.GREEN + "Aby usunac bazar wpisz /bazar usun");
         player.sendMessage(ChatColor.GREEN + "Aby zmienic oferte wpisz /bazar zmien");
         player.getInventory().removeItem(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay(), 1));

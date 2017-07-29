@@ -18,25 +18,24 @@ package pl.filippop1.bazzars.api;
 
 import java.util.ArrayList;
 import java.util.List;
-import pl.filippop1.bazzars.BazzarsPlugin;
-import pl.filippop1.bazzars.Hologram;
+import java.util.UUID;
+import de.inventivegames.hologram.Hologram;
+import org.bukkit.Location;
 
 public class Bazar {
     public static final int MAX_NAME_LENGTH = 25;
-    
+
+    private final List<Offer> offers;
+    private final UUID owner;
+    private final Location location;
     private Hologram hologram;
     private int lastID = 1;
     private String name;
-    private final List<Offer> offers;
     private boolean open;
-    private final String owner;
     
-    public Bazar(String owner) {
-        this(owner, BazzarsPlugin.getConfiguration().getBazarDefaultName(owner));
-    }
-    
-    public Bazar(String owner, String name) {
+    public Bazar(UUID owner, Location location, String name) {
         this.owner = owner;
+        this.location = location;
         this.name = name;
         this.offers = new ArrayList<>();
     }
@@ -53,7 +52,11 @@ public class Bazar {
     public int getLastID() {
         return this.lastID;
     }
-    
+
+    public Location getLocation() {
+        return location;
+    }
+
     public String getName() {
         return this.name;
     }
@@ -62,7 +65,7 @@ public class Bazar {
         return this.offers;
     }
     
-    public String getOwner() {
+    public UUID getOwner() {
         return this.owner;
     }
     
@@ -74,10 +77,9 @@ public class Bazar {
         return this.offers.remove(offer);
     }
     
-    public int removeAll() {
-        int size = this.offers.size();
+    public void removeAll() {
         this.offers.clear();
-        return size;
+        this.lastID = 1;
     }
     
     public void setHologram(Hologram hologram) {

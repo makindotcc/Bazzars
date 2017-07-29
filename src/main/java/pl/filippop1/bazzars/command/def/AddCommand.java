@@ -77,6 +77,6 @@ public class AddCommand extends Command {
         builder.numericID(id);
         
         bazar.addOffer(builder.toOffer());
-        player.sendMessage(ChatColor.GREEN + "Dodano oferte. " + ChatColor.GRAY + "(ID: " + id + ")");
+        player.sendMessage(ChatColor.GREEN + "Dodano oferte " + ChatColor.GRAY + "(ID: " + id + ")");
     }
 }

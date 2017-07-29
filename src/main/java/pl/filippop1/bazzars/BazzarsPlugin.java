@@ -41,7 +41,6 @@ public class BazzarsPlugin extends JavaPlugin {
     private static Configuration configuration;
     private static BazzarsPlugin instance;
     private static String version;
-    private Metrics metrics;
     
     @Override
     public void onEnable() {
@@ -81,7 +80,7 @@ public class BazzarsPlugin extends JavaPlugin {
     }
 
     private void loadMetrics() {
-        metrics = new Metrics(this);
+        Metrics metrics = new Metrics(this);
         metrics.addCustomChart(new Metrics.SingleLineChart("open_bazaars", new Callable<Integer>() {
             @Override
             public Integer call() {

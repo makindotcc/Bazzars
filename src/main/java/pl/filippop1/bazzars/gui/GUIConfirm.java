@@ -24,17 +24,19 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.filippop1.bazzars.gui.GUIShop.TypeGUI;
 
+import java.util.UUID;
+
 public class GUIConfirm {
     public static final String NAME_INVENTORY = ChatColor.BLUE + "Sklep gracza $player";
     
     private final Inventory inventory;
     private final ItemStack itemConfirm;
-    private final String owner;
+    private final UUID owner;
     private final String player;
     private final int slot;
     private TypeGUI type;
     
-    public GUIConfirm(Inventory inventory, ItemStack itemConfirm, String owner, TypeGUI type, String player, int slot) {
+    public GUIConfirm(Inventory inventory, ItemStack itemConfirm, UUID owner, TypeGUI type, String player, int slot) {
         this.inventory = inventory;
         this.itemConfirm = itemConfirm;
         this.owner = owner;
@@ -55,7 +57,7 @@ public class GUIConfirm {
         return this.itemConfirm;
     }
     
-    public String getOwner() {
+    public UUID getOwner() {
         return this.owner;
     }
     
@@ -80,7 +82,7 @@ public class GUIConfirm {
         ItemMeta imNo = no.getItemMeta();
         imNo.setDisplayName(ChatColor.RED + String.valueOf(ChatColor.BOLD) + "NIE");
         no.setItemMeta(imNo);
-        
+
         this.inventory.setItem(4, itemConfirm);
         this.inventory.setItem(9, yes);
         this.inventory.setItem(10, yes);

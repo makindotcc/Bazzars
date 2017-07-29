@@ -20,7 +20,7 @@ public class PlayerCommandPreprocessListener implements Listener {
             e.getPlayer().sendMessage(ChatColor.GOLD + "Ten serwer posiada plugin na bazary (Bazzars) by filippop1");
             return;
         }
-        if (BazarManager.getBazar(e.getPlayer().getName()) == null) {
+        if (BazarManager.getBazar(e.getPlayer().getUniqueId()) == null) {
             return;
         }
         

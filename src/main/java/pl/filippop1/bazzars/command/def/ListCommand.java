@@ -32,7 +32,7 @@ public class ListCommand extends Command {
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
             throw new CommandException("Nie posiadasz bazaru! Aby go stworzyc uzyj /bazar stworz.");
         }

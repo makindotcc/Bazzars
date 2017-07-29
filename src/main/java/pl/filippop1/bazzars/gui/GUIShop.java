@@ -18,6 +18,8 @@ package pl.filippop1.bazzars.gui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,10 +37,10 @@ public class GUIShop {
     private final Inventory inventory;
     private ItemStack itemConfirm;
     private final List<Offer> offers;
-    private final String owner, whoClicked;
+    private final UUID owner, whoClicked;
     private final int size;
     
-    public GUIShop(String owner, int size, String whoClicked, List<Offer> offers) {
+    public GUIShop(UUID owner, int size, UUID whoClicked, List<Offer> offers) {
         this.offers = offers;
         this.owner = owner;
         this.size = size * 9;
@@ -64,13 +66,15 @@ public class GUIShop {
                             "Brak towaru.");
                 }
                 lore.add(ChatColor.GOLD + "Cena kupna: " + ChatColor.YELLOW + offer.getCostBuy() + " " + BazzarsPlugin.getConfiguration().getCurrency());
+                lore.add(ChatColor.GOLD + "    Kliknij lewym przyciskiem myszy aby kupic.");
             }
             if (offer.canSell()) {
                 if (!ownerInventory.containsAtLeast(new ItemStack(BazzarsPlugin.getConfiguration().getItemPay()), offer.getCostSell())) {
                     lore.add(ChatColor.DARK_PURPLE.toString() + ChatColor.ITALIC.toString() +
-                            "Sprzedajacy nie posiada tyle " + BazzarsPlugin.getConfiguration().getCurrency() + ".");
+                            "Sprzedajacy nie posiada tylu " + BazzarsPlugin.getConfiguration().getCurrency() + ".");
                 }
-                lore.add(ChatColor.GOLD + "Cena sprzedazy: " + ChatColor.YELLOW + offer.getCostSell() + " " + BazzarsPlugin.getConfiguration().getCurrency());   
+                lore.add(ChatColor.GOLD + "Cena sprzedazy: " + ChatColor.YELLOW + offer.getCostSell() + " " + BazzarsPlugin.getConfiguration().getCurrency());
+                lore.add(ChatColor.GOLD + "    Kliknij prawym przyciskiem myszy aby sprzedac.");
             }
             meta.setLore(lore);
             item.setItemMeta(meta);
@@ -91,7 +95,7 @@ public class GUIShop {
         return this.offers;
     }
     
-    public String getOwner() {
+    public UUID getOwner() {
         return this.owner;
     }
     
@@ -99,7 +103,7 @@ public class GUIShop {
         return this.size;
     }
     
-    public String getWhoClicked() {
+    public UUID getWhoClicked() {
         return this.whoClicked;
     }
     

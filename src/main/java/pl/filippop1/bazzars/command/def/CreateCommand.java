@@ -33,7 +33,7 @@ public class CreateCommand extends Command {
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar != null) {
             throw new CommandException("Masz juz stworzony bazar!");
         }
@@ -42,19 +42,21 @@ public class CreateCommand extends Command {
         spawnLocation.setY(player.getLocation().getY());
         if (!player.getLocation().getWorld().getName().equals(BazzarsPlugin.getConfiguration().getSpawnLocation().getWorld().getName())) {
             throw new CommandException("Bazar mozna zalozyc tylko na swiecie " + BazzarsPlugin.getConfiguration().getDistanceSpawn() + "!");
-        } else if (player.getLocation().distance(spawnLocation) > BazzarsPlugin.getConfiguration().getDistanceSpawn()) {
-            throw new CommandException("Nie mozesz zalozyc bazaru dalej niz " + BazzarsPlugin.getConfiguration().getDistanceSpawn() + " kratek od miejsca spawnu!");
-        } else {
-            bazar = new Bazar(player.getName());
         }
-        
+        if (player.getLocation().distance(spawnLocation) > BazzarsPlugin.getConfiguration().getDistanceSpawn()) {
+            throw new CommandException("Nie mozesz zalozyc bazaru dalej niz " + BazzarsPlugin.getConfiguration().getDistanceSpawn() + " kratek od miejsca spawnu!");
+        }
+
         Location location = player.getLocation();
         location.setX(location.getBlockX() + 0.5);
         location.setZ(location.getBlockZ() + 0.5);
         player.teleport(location);
+
+        String bazarName = BazzarsPlugin.getConfiguration().getBazarDefaultName(player.getName());
+        bazar = new Bazar(player.getUniqueId(), location, bazarName);
         
         BazarManager.addBazar(bazar);
         player.sendMessage(ChatColor.GREEN + "Stworzono bazar.");
-        player.playSound(player.getLocation(), Sound.ANVIL_USE, 2.0F, 1.0F);
+        //player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0F, 1.0F);
     }
 }

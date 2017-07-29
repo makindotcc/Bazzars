@@ -32,15 +32,15 @@ public class CloseCommand extends Command {
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
-            throw new CommandException("Nie posiadasz bazaru. Aby go stworzyc uzyj /bazar stworz.");
-        } else if (bazar.isOpen() && BazzarsPlugin.getConfiguration().isHologramEnabled()) {
-            bazar.getHologram().delete();
+            throw new CommandException("Nie posiadasz bazaru! Aby go stworzyc uzyj /bazar stworz.");
+        } else if (bazar.getHologram() != null && bazar.getHologram().isSpawned()) {
+            bazar.getHologram().despawn();
         }
         
         BazarManager.removeBazar(bazar);
         player.sendMessage(ChatColor.GREEN + "Zamknieto bazar.");
-        player.playSound(player.getLocation(), Sound.ANVIL_USE, 2.0F, 1.0F);
+        //player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_USE, 2.0F, 1.0F);
     }
 }

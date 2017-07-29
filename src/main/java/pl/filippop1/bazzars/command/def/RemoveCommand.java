@@ -26,12 +26,12 @@ import pl.filippop1.bazzars.command.CommandException;
 
 public class RemoveCommand extends Command {
     public RemoveCommand() {
-        super("usun", "usuwa oferte", new String[] {"remove", "delete"});
+        super("usun", "usuwa oferte", "<id>", new String[] {"remove", "delete"});
     }
     
     @Override
     public void execute(Player player, String[] args) throws CommandException {
-        Bazar bazar = BazarManager.getBazar(player.getName());
+        Bazar bazar = BazarManager.getBazar(player.getUniqueId());
         if (bazar == null) {
             throw new CommandException("Nie posiadasz bazaru. Aby go stworzyc uzyj /bazar stworz.");
         } else if (args.length != 2) {
@@ -44,6 +44,7 @@ public class RemoveCommand extends Command {
         } catch (NumberFormatException ex) {
             throw new CommandException("Argumentem musi byc ID oferty! Aby sprawdzic jego ID wpisz /bazar list");
         }
+
         for (Offer offer : bazar.getOffers()) {
             if (offer.getNumericID() == i) {
                 player.sendMessage(ChatColor.GREEN + "Usunales oferte.");

@@ -28,19 +28,20 @@ import pl.filippop1.bazzars.gui.GUIShop;
 public class PlayerInteractListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEntityEvent e) {
-        if (!(e.getRightClicked() instanceof Player)) {
+        if (!(e.getRightClicked() instanceof Player))
             return;
-        }
-        
+
         Player target = (Player) e.getRightClicked();
-        Bazar bazar = BazarManager.getBazar(target.getName());
-        if (bazar == null) {
-            return;
-        } else if (!bazar.isOpen()) {
+        Bazar bazar = BazarManager.getBazar(target.getUniqueId());
+        if (bazar == null || !bazar.isOpen()) {
             return;
         }
-        
-        GUIShop gui = new GUIShop(target.getName(), this.getSize(bazar.getOffers().size()), e.getPlayer().getName(), bazar.getOffers());
+
+        GUIShop gui = GUIManager.getGUIShop(e.getPlayer().getUniqueId());
+        if (gui != null)
+            return;
+
+        gui = new GUIShop(target.getUniqueId(), this.getSize(bazar.getOffers().size()), e.getPlayer().getUniqueId(), bazar.getOffers());
         GUIManager.addGUIShop(gui);
         gui.openShop(e.getPlayer());
     }
